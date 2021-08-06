@@ -1,3 +1,5 @@
+import Enums.Direction;
+import Environment.MarsSurface;
 import Rover.Battery;
 import Rover.BatteryCell;
 import Rover.MarsRover;

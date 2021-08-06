@@ -1,37 +1,47 @@
 package Helpers;
 
-public record Vector2D(int x, int y) {
-    private static int xPos;
-    private static int yPos;
+import java.util.Objects;
+
+public class Vector2D {
+    private int xPos;
+
+    public void setxPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
+    }
+
+    private int yPos;
 
     public int getxPos() {
         return xPos;
-    }
-
-    public void setxPos(int xPos) {
-        Vector2D.xPos = xPos;
     }
 
     public int getyPos() {
         return yPos;
     }
 
-    public void setyPos(int yPos) {
-        Vector2D.yPos = yPos;
-    }
 
-    public Vector2D {
-        xPos = x;
-        yPos = y;
+    public Vector2D(int x, int y) {
+        this.xPos = x;
+        this.yPos = y;
     }
 
     public void add(Vector2D v) {
-        xPos += v.getxPos();
-        yPos += v.getyPos();
+        this.xPos += v.getxPos();
+        this.yPos += v.getyPos();
     }
 
-    public void multiply(Vector2D v){
-        xPos *= v.getxPos();
-        yPos *= v.getyPos();
+    public void multiply(Vector2D v) {
+        this.xPos *= v.getxPos();
+        this.yPos *= v.getyPos();
     }
+
+    @Override
+    public String toString() {
+        return "(X: %d | Y: %d)".formatted(xPos, yPos);
+    }
+
 }
