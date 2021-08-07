@@ -1,5 +1,6 @@
 package Rover;
 
+import Environment.ScientificSample;
 import Helpers.Vector2D;
 import Utility.BatteryManagement;
 import Utility.ConsoleLogger;
@@ -8,24 +9,36 @@ import Utility.MovementManagement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Queue;
 
 public class MarsRover {
 
-    private BatteryManagement batteryManagement;
-    private MovementManagement movementManagement;
     private final String serialNumber = "X7UJ90MM";
     private final String name = "Curiosity";
     private final int mass = 899;
     private final LocalDate manufacturingDate = LocalDate.parse("20210607", DateTimeFormatter.BASIC_ISO_DATE);
-    private final Vector2D currentPosition = new Vector2D(0, 0);
+    private BatteryManagement batteryManagement;
+    private MovementManagement movementManagement;
+    private Vector2D currentPosition = new Vector2D(0, 0);
     private boolean isStarted = false;
     private Chassis chassis;
-    private final ArrayList<Battery> batteries;
+    private ArrayList<Battery> batteries;
     private ArrayList<SolarPanel> solarPanels;
     private Camera camera;
+    private Queue<ScientificSample> scientificSampleQueue;
 
-    public MarsRover(ArrayList<Battery> batteries) {
+    public MarsRover(BatteryManagement batteryManagement,
+                     MovementManagement movementManagement,
+                     Chassis chassis,
+                     ArrayList<Battery> batteries,
+                     ArrayList<SolarPanel> solarPanels,
+                     Camera camera) {
+        this.batteryManagement = batteryManagement;
+        this.movementManagement = movementManagement;
+        this.chassis = chassis;
         this.batteries = batteries;
+        this.solarPanels = solarPanels;
+        this.camera = camera;
     }
 
     public Chassis getChassis() {
@@ -65,21 +78,25 @@ public class MarsRover {
     }
 
     public void moveUp() {
+        movementManagement.moveUp();
         currentPosition.add(new Vector2D(0, 1));
         ConsoleLogger.log("Rover %s updated position to: %s".formatted(name, currentPosition));
     }
 
     public void moveDown() {
+        movementManagement.moveDown();
         currentPosition.add(new Vector2D(0, -1));
         ConsoleLogger.log("Rover %s updated position to: %s".formatted(name, currentPosition));
     }
 
     public void moveLeft() {
+        movementManagement.turnLeft();
         currentPosition.add(new Vector2D(-1, 0));
         ConsoleLogger.log("Rover %s updated position to: %s".formatted(name, currentPosition));
     }
 
     public void moveRight() {
+        movementManagement.turnRight();
         currentPosition.add(new Vector2D(1, 0));
         ConsoleLogger.log("Rover %s updated position to: %s".formatted(name, currentPosition));
     }

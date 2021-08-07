@@ -8,29 +8,28 @@ import java.util.ArrayList;
 
 public class Camera implements ICamera {
     private final String serialNumber = "Z7B98N50";
+    private Lens lens;
+    private MemoryCard memoryCard;
     private int currentFactor = 0;
-    private final Lens lens = new Lens(this);
     private ArrayList<Filter> filters;
     private ArrayList<IRLED> irleds;
     private ArrayList<Chip> chips;
     private MarsRover rover;
 
-    public Camera() {
-        for (int i = 0; i < 10; i++) {
-            if (i < 2) chips.add(new Chip());
-            if (i < 3) filters.add(new Filter(this));
-            irleds.add(new IRLED());
-        }
+    public Camera(Lens lens, MemoryCard memoryCard, ArrayList<Filter> filters, ArrayList<IRLED> irleds, ArrayList<Chip> chips) {
+        this.lens = lens;
+        this.memoryCard = memoryCard;
+        this.filters = filters;
+        this.irleds = irleds;
+        this.chips = chips;
     }
-
-    private final MemoryCard memoryCard = new MemoryCard(this);
 
     public int getCurrentFactor() {
         return currentFactor;
     }
 
     public void setCurrentFactor(int currentFactor) {
-        if (currentFactor > 2 || currentFactor < 0){
+        if (currentFactor > 2 || currentFactor < 0) {
             this.currentFactor = 0;
         } else {
             this.currentFactor = currentFactor;
@@ -55,5 +54,9 @@ public class Camera implements ICamera {
     public Picture takePicture() {
         Picture picture = new Picture(LocalDateTime.now().getNano(), rover.getCurrentPosition());
         return picture;
+    }
+
+    public void setRover(MarsRover rover) {
+        this.rover = rover;
     }
 }
