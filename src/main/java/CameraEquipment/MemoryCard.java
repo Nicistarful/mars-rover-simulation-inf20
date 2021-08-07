@@ -1,14 +1,15 @@
 package CameraEquipment;
 
-import Rover.Camera;
-
 import java.util.Stack;
 
 public class MemoryCard {
-    private Camera camera;
-    private Stack<Picture> storage;
+    private Stack<Picture> pictures;
 
-    public MemoryCard(Camera camera) {
-        this.camera = camera;
+    public MemoryCard() {
+        pictures = new Stack<>();
+    }
+
+    public Stack<Picture> getPictures() {
+        return pictures;
     }
 }

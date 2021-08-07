@@ -1,26 +1,28 @@
 package CameraEquipment;
 
+import Environment.MarsSurface;
 import Helpers.Vector2D;
-import Utility.RandomMaker;
+
+import java.util.Arrays;
 
 public class Picture {
     private int nanoTimestamp;
     private Vector2D location;
-    private String content;
+    private char[] content;
 
-    public Picture(int nanoTimestamp, Vector2D location) {
+    public Picture(int nanoTimestamp, Vector2D location, int width) {
         this.nanoTimestamp = nanoTimestamp;
         this.location = location;
 
-        String charPool = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789";
-        int randomIndex = RandomMaker.getRandomInt(0, charPool.length() - 1);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 1000; i++) {
-            sb.append(charPool.substring(randomIndex));
-            if(i % 100 == 0){
-                System.out.println();
-            }
+        content = new char[width];
+        char[] structure = MarsSurface.getSurfaceStructure()[location.getyPos() + 1];
+        for (int i = 0; i < width; i++) {
+            content[i] = structure[(location.getxPos() - Math.round((float)width/2f)) + i];
         }
-        content = sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "%d;%s;%s".formatted(nanoTimestamp, location, Arrays.toString(content));
     }
 }

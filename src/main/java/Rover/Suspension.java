@@ -1,13 +1,17 @@
 package Rover;
 
 import Enums.Direction;
+import Utility.BatteryManagement;
 
 public class Suspension {
     private Direction direction;
     private Wheel wheel;
+    private BatteryManagement batteryManagement;
 
-    public Suspension() {
+    public Suspension(BatteryManagement batteryManagement) {
+        this.batteryManagement = batteryManagement;
         direction = Direction.STRAIGHT;
+        wheel = new Wheel(batteryManagement);
     }
 
     public void alignStraight() {

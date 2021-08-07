@@ -1,9 +1,14 @@
 package Rover;
 
-public class Wheel {
-    private ElectricMotor electricMotor = new ElectricMotor();
+import Utility.BatteryManagement;
 
-    public Wheel() {
+public class Wheel {
+    private ElectricMotor electricMotor;
+    private BatteryManagement batteryManagement;
+
+    public Wheel(BatteryManagement batteryManagement) {
+        this.batteryManagement = batteryManagement;
+        electricMotor  = new ElectricMotor(batteryManagement);
     }
 
     public ElectricMotor getElectricMotor() {

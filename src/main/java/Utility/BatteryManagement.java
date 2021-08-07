@@ -13,15 +13,21 @@ public class BatteryManagement {
         this.batteryReferences = batteryReferences;
     }
 
-    public void charge(int amount) {
-        BatteryCell[] cells = getRandomBatteryCells();
+    public ArrayList<Battery> getBatteryReferences() {
+        return batteryReferences;
+    }
+
+    public Battery charge(int amount) {
+        Battery b = getRandomBattery();
+        BatteryCell[] cells = b.getBatteryCells();
         for (BatteryCell cell : cells) {
             cell.charge(amount);
         }
+        return b;
     }
 
-    private BatteryCell[] getRandomBatteryCells() {
-        return batteryReferences.get(new Random().nextInt(4)).getBatteryCells();
+    private Battery getRandomBattery() {
+        return batteryReferences.get(new Random().nextInt(4));
     }
 
     public void charge(int index, int amount) {
@@ -32,9 +38,20 @@ public class BatteryManagement {
     }
 
     public void discharge(int amount) {
-        BatteryCell[] cells = getRandomBatteryCells();
+        Battery b = getRandomBattery();
+        BatteryCell[] cells = b.getBatteryCells();
         for (BatteryCell cell : cells) {
             cell.discharge(amount);
         }
+    }
+
+    public float getPowerLevel(){
+        float percentage = 0f;
+        ArrayList<Battery> batteries = batteryReferences;
+        for (Battery battery : batteries) {
+            ConsoleLogger.log(battery.getPercentageFull());
+            percentage += (battery.getPercentageFull() / batteryReferences.size());
+        }
+        return percentage;
     }
 }

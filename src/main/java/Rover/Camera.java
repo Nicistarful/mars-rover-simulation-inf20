@@ -52,11 +52,17 @@ public class Camera implements ICamera {
 
     @Override
     public Picture takePicture() {
-        Picture picture = new Picture(LocalDateTime.now().getNano(), rover.getCurrentPosition());
+        int width = 11 - currentFactor * 2;
+        Picture picture = new Picture(LocalDateTime.now().getNano(), rover.getCurrentPosition(), width);
+        memoryCard.getPictures().add(picture);
         return picture;
     }
 
     public void setRover(MarsRover rover) {
         this.rover = rover;
+    }
+
+    public MemoryCard getMemoryCard() {
+        return memoryCard;
     }
 }
