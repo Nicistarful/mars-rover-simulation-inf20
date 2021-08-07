@@ -3,6 +3,7 @@ package Rover;
 import CameraEquipment.*;
 import Interfaces.ICamera;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Camera implements ICamera {
@@ -12,6 +13,7 @@ public class Camera implements ICamera {
     private ArrayList<Filter> filters;
     private ArrayList<IRLED> irleds;
     private ArrayList<Chip> chips;
+    private MarsRover rover;
 
     public Camera() {
         for (int i = 0; i < 10; i++) {
@@ -51,6 +53,7 @@ public class Camera implements ICamera {
 
     @Override
     public Picture takePicture() {
-        return null;
+        Picture picture = new Picture(LocalDateTime.now().getNano(), rover.getCurrentPosition());
+        return picture;
     }
 }
