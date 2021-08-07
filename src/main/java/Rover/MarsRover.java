@@ -1,5 +1,6 @@
 package Rover;
 
+import Environment.MarsSurface;
 import Environment.ScientificSample;
 import Helpers.Vector2D;
 import Utility.BatteryManagement;
@@ -19,26 +20,28 @@ public class MarsRover {
     private final LocalDate manufacturingDate = LocalDate.parse("20210607", DateTimeFormatter.BASIC_ISO_DATE);
     private BatteryManagement batteryManagement;
     private MovementManagement movementManagement;
-    private Vector2D currentPosition = new Vector2D(0, 0);
+    private Vector2D currentPosition = new Vector2D(499, 499);
     private boolean isStarted = false;
     private Chassis chassis;
     private ArrayList<Battery> batteries;
     private ArrayList<SolarPanel> solarPanels;
     private Camera camera;
     private Queue<ScientificSample> scientificSampleQueue;
+    private Gripper gripper;
 
     public MarsRover(BatteryManagement batteryManagement,
                      MovementManagement movementManagement,
                      Chassis chassis,
                      ArrayList<Battery> batteries,
                      ArrayList<SolarPanel> solarPanels,
-                     Camera camera) {
+                     Camera camera, Gripper gripper) {
         this.batteryManagement = batteryManagement;
         this.movementManagement = movementManagement;
         this.chassis = chassis;
         this.batteries = batteries;
         this.solarPanels = solarPanels;
         this.camera = camera;
+        this.gripper = gripper;
     }
 
     public Chassis getChassis() {
@@ -109,5 +112,14 @@ public class MarsRover {
     public void shutdown() {
         isStarted = false;
         ConsoleLogger.log("Rover %s is started: %s".formatted(name, isStarted));
+    }
+
+    public char getCurrentSurfacePosition(){
+        return MarsSurface.getSurfaceStructure()[currentPosition.getyPos()][currentPosition.getxPos()];
+    }
+
+    public void extractSample(){
+        char[] sample = gripper.extractSample(currentPosition);
+        scientificSampleQueue.add(new ScientificSample(currentPosition, sample));
     }
 }
